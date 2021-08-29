@@ -5,7 +5,7 @@ export default defineConfig({
     type: 'none',
   },
   layout: {
-    title: 'LA County Covid Info',
+    title: 'LACI',
     logo: '/coronavirus.svg',
     layout: 'top',
   },
