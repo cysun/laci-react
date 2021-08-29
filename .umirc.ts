@@ -4,8 +4,13 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
-  routes: [
-    { path: '/', component: '@/pages/index' },
-  ],
+  layout: {
+    title: 'LA County Covid Info',
+    logo: '/coronavirus.svg',
+    layout: 'top',
+  },
+  routes: [{ path: '/', component: '@/pages/index' }],
   fastRefresh: {},
+  mfsu: {},
+  webpack5: {},
 });
