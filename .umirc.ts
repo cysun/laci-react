@@ -1,15 +1,18 @@
-import { defineConfig } from 'umi';
+import { defineConfig } from "umi";
 
 export default defineConfig({
   nodeModulesTransform: {
-    type: 'none',
+    type: "none",
   },
   layout: {
-    title: 'LACI',
-    logo: '/coronavirus.svg',
-    layout: 'top',
+    title: "LACI",
+    logo: "/coronavirus.svg",
+    layout: "top",
   },
-  routes: [{ path: '/', component: '@/pages/index' }],
+  locale: {
+    default: "en-US",
+  },
+  routes: [{ path: "/", component: "@/pages/index" }],
   fastRefresh: {},
   mfsu: {},
   webpack5: {},
