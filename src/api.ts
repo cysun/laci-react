@@ -9,7 +9,7 @@ export interface City {
 
 export interface Record {
   cityId: number;
-  date: Date;
+  date: string;
   tests: number;
   cases: number;
   deaths: number;
