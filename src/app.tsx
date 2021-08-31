@@ -1,10 +1,11 @@
 import {
-  DefaultFooter,
   BasicLayoutProps,
   Settings as LayoutSettings,
-} from '@ant-design/pro-layout';
+} from "@ant-design/pro-layout";
+import { Layout } from "antd";
+import Cookies from "js-cookie";
+import * as API from "./api";
 
-import { Layout } from 'antd';
 const { Footer } = Layout;
 
 export const layout = ({
@@ -15,14 +16,14 @@ export const layout = ({
   return {
     rightContentRender: false,
     footerRender: () => (
-      <Footer style={{ textAlign: 'center' }}>
+      <Footer style={{ textAlign: "center" }}>
         Copyright &copy; Chengyu Sun 2021.
         <br />
-        Icons made by{' '}
+        Icons made by{" "}
         <a href="https://www.freepik.com" title="Freepik">
           Freepik
-        </a>{' '}
-        from{' '}
+        </a>{" "}
+        from{" "}
         <a href="https://www.flaticon.com/" title="Flaticon">
           www.flaticon.com
         </a>
@@ -31,3 +32,9 @@ export const layout = ({
     ...initialState?.settings,
   };
 };
+
+export async function getInitialState() {
+  const cities: API.City[] = (await API.getCities()).data;
+  let savedCityId = +(Cookies.get("laci-city-id") || "");
+  return { cities, savedCityId };
+}

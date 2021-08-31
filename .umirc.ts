@@ -12,7 +12,10 @@ export default defineConfig({
   locale: {
     default: "en-US",
   },
-  routes: [{ path: "/", component: "@/pages/index" }],
+  routes: [
+    { path: "/", component: "@/pages/index" },
+    { path: "/cities/:id", component: "@/pages/city" },
+  ],
   fastRefresh: {},
   mfsu: {},
   webpack5: {},
