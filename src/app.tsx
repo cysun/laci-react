@@ -1,10 +1,12 @@
+import { RequestConfig } from "umi";
 import {
   BasicLayoutProps,
   Settings as LayoutSettings,
 } from "@ant-design/pro-layout";
 import { Layout } from "antd";
 import Cookies from "js-cookie";
-import * as API from "./api";
+import settings from "../settings.json";
+import { City, getCities } from "./api";
 
 const { Footer } = Layout;
 
@@ -33,8 +35,12 @@ export const layout = ({
   };
 };
 
+export const request: RequestConfig = {
+  prefix: settings.apiBaseUrl,
+};
+
 export async function getInitialState() {
-  const cities: API.City[] = (await API.getCities()).data;
+  const cities: City[] = await getCities();
   let savedCityId = +(Cookies.get("laci-city-id") || "");
   return { cities, savedCityId };
 }

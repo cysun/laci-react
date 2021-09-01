@@ -1,5 +1,4 @@
 import { request } from "umi";
-import settings from "../settings.json";
 
 export interface City {
   id: number;
@@ -16,9 +15,5 @@ export interface Record {
 }
 
 export async function getCities() {
-  return request(`${settings.apiBaseUrl}/cities`);
-}
-
-export async function getRecords(cityId: number) {
-  return request(`${settings.apiBaseUrl}/cities/${cityId}/records`);
+  return (await request("/cities")).data;
 }
