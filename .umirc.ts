@@ -7,7 +7,9 @@ export default defineConfig({
   },
   layout: {
     title: "LACI",
-    logo: "/coronavirus.svg",
+    logo: settings.publicPath
+      ? `${settings.publicPath}coronavirus.svg`
+      : "/coronavirus.svg",
     layout: "top",
   },
   locale: {

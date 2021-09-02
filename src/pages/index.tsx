@@ -13,24 +13,21 @@ export default function IndexPage() {
     history.push(`/cities/${cityId}`);
   }
 
-  if (initialState?.savedCityId)
-    return <Redirect to={`/cities/${initialState?.savedCityId}`} />;
-  else
-    return (
-      <PageContainer header={{ title: "LA COVID Information by City" }}>
-        <Select
-          showSearch
-          placeholder="Select a city"
-          optionFilterProp="children"
-          style={{ width: 400 }}
-          onChange={selectCity}
-        >
-          {initialState?.cities.map((c) => (
-            <Option key={c.id} value={c.id}>
-              {c.name}
-            </Option>
-          ))}
-        </Select>
-      </PageContainer>
-    );
+  return (
+    <PageContainer header={{ title: "LA COVID Information by City" }}>
+      <Select
+        showSearch
+        placeholder="Select a city"
+        optionFilterProp="children"
+        style={{ width: 400 }}
+        onChange={selectCity}
+      >
+        {initialState?.cities.map((c) => (
+          <Option key={c.id} value={c.id}>
+            {c.name}
+          </Option>
+        ))}
+      </Select>
+    </PageContainer>
+  );
 }
