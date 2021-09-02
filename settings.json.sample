@@ -1,3 +1,5 @@
 {
-  "apiBaseUrl": "http://localhost:5000"
+  "apiBaseUrl": "https://cysun.org/api/laci",
+  "base": "/spa/laci",
+  "publicPath": "https://cysun.org/spa/laci/"
 }

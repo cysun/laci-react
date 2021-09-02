@@ -70,5 +70,5 @@ export default function CityPage(props: any) {
     });
   }
 
-  return <CityDashboard cityInfo={cityInfo} />;
+  return <CityDashboard cityInfo={cityInfo} cities={initialState?.cities} />;
 }

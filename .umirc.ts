@@ -1,4 +1,5 @@
 import { defineConfig } from "umi";
+import settings from "./settings.json";
 
 export default defineConfig({
   nodeModulesTransform: {
@@ -19,4 +20,6 @@ export default defineConfig({
   fastRefresh: {},
   mfsu: {},
   webpack5: {},
+  base: settings.base,
+  publicPath: settings.publicPath,
 });

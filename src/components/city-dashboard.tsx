@@ -1,7 +1,10 @@
 import { history } from "umi";
-import { Row, Col, Card, Button, Tag, Statistic } from "antd";
+import { Row, Col, Card, Select, Tag, Statistic } from "antd";
 import { PageContainer } from "@ant-design/pro-layout";
 import { Line, LineConfig } from "@ant-design/charts";
+import { City } from "@/api";
+
+const { Option } = Select;
 
 export interface CityInfo {
   id?: number;
@@ -25,7 +28,13 @@ export interface ChartDataEntry {
   deaths7Avg?: number;
 }
 
-export default function CityDashboard({ cityInfo }: { cityInfo: CityInfo }) {
+export default function CityDashboard({
+  cityInfo,
+  cities,
+}: {
+  cityInfo: CityInfo;
+  cities: City[];
+}) {
   let cases = cityInfo.chartData?.flatMap((d) => [
     { label: d.label, value: d.cases, type: "Cases" },
     { label: d.label, value: d.cases7Avg, type: "Cases (7-day Average)" },
@@ -49,7 +58,19 @@ export default function CityDashboard({ cityInfo }: { cityInfo: CityInfo }) {
         <Tag color="green">{cityInfo.lastUpdated?.toLocaleDateString()}</Tag>,
       ]}
       extra={[
-        <Button onClick={() => history.push("/")}>Back to Cities</Button>,
+        <Select
+          showSearch
+          placeholder="Select a city"
+          optionFilterProp="children"
+          style={{ width: 300 }}
+          onChange={(value) => history.push(`/cities/${value}`)}
+        >
+          {cities.map((c) => (
+            <Option key={c.id} value={c.id}>
+              {c.name}
+            </Option>
+          ))}
+        </Select>,
       ]}
     >
       <Row gutter={[16, 16]}>
