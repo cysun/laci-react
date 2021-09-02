@@ -16,17 +16,19 @@ export interface CityInfo {
 export interface ChartDataEntry {
   date: Date;
   label: string;
-  newTests: number;
-  newCases: number;
-  newDeaths: number;
+  tests?: number;
+  tests7Avg?: number;
+  cases?: number;
+  cases7Avg?: number;
+  deaths?: number;
+  deaths7Avg?: number;
 }
 
 export default function CityDashboard({ cityInfo }: { cityInfo: CityInfo }) {
   let lineConfig: LineConfig = {
     data: cityInfo.chartData,
     xField: "label",
-    yField: "newDeaths",
-    connectNulls: true,
+    yField: "cases7Avg",
   };
 
   return (
