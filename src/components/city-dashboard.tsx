@@ -1,5 +1,6 @@
 import { Descriptions } from "antd";
 import { PageContainer } from "@ant-design/pro-layout";
+import { Line, LineConfig } from "@ant-design/charts";
 
 export interface CityInfo {
   id?: number;
@@ -9,9 +10,25 @@ export interface CityInfo {
   tests?: number;
   cases?: number;
   deaths?: number;
+  chartData?: ChartDataEntry[];
+}
+
+export interface ChartDataEntry {
+  date: Date;
+  label: string;
+  newTests: number;
+  newCases: number;
+  newDeaths: number;
 }
 
 export default function CityDashboard({ cityInfo }: { cityInfo: CityInfo }) {
+  let lineConfig: LineConfig = {
+    data: cityInfo.chartData,
+    xField: "label",
+    yField: "newDeaths",
+    connectNulls: true,
+  };
+
   return (
     <PageContainer header={{ title: cityInfo.name }}>
       <Descriptions layout="vertical" bordered>
@@ -31,6 +48,7 @@ export default function CityDashboard({ cityInfo }: { cityInfo: CityInfo }) {
           {cityInfo.deaths?.toLocaleString()}
         </Descriptions.Item>
       </Descriptions>
+      <Line {...lineConfig} />
     </PageContainer>
   );
 }
