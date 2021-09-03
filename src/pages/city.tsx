@@ -3,10 +3,7 @@ import { Alert } from "antd";
 import isSameDay from "date-fns/isSameDay";
 import eachDayOfInterval from "date-fns/eachDayOfInterval";
 import { Record } from "@/api";
-import CityDashboard, {
-  CityInfo,
-  ChartDataEntry,
-} from "@/components/city-dashboard";
+import CityDashboard, { CityInfo } from "@/components/city-dashboard";
 import PageLoading from "@/components/page-loading";
 
 export default function CityPage(props: any) {
@@ -14,7 +11,9 @@ export default function CityPage(props: any) {
   let cityId: number = props.match.params.id;
   let city = initialState?.cities.find((c) => c.id == cityId);
 
-  const { data, error, loading } = useRequest(`/cities/${cityId}/records`);
+  const { data, error, loading } = useRequest(`/cities/${cityId}/records`, {
+    refreshDeps: [cityId],
+  });
 
   if (error)
     return <Alert message="Failed to load data" type="error" showIcon />;

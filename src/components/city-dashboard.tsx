@@ -1,8 +1,10 @@
 import { history } from "umi";
-import { Row, Col, Card, Button, Tag, Statistic } from "antd";
+import { Row, Col, Card, Select, Tag, Statistic } from "antd";
 import { PageContainer } from "@ant-design/pro-layout";
 import { Line, LineConfig } from "@ant-design/charts";
 import { City } from "@/api";
+
+const { Option } = Select;
 
 export interface CityInfo {
   id?: number;
@@ -56,7 +58,20 @@ export default function CityDashboard({
         <Tag color="green">{cityInfo.lastUpdated?.toLocaleDateString()}</Tag>,
       ]}
       extra={[
-        <Button onClick={() => history.push("/")}>Back to Cities</Button>,
+        <Select
+          showSearch
+          placeholder="Select a city"
+          optionFilterProp="children"
+          style={{ width: 300 }}
+          onChange={(value) => history.push(`/cities/${value}`)}
+          defaultValue={cityInfo.id}
+        >
+          {cities.map((c) => (
+            <Option key={c.id} value={c.id}>
+              {c.name}
+            </Option>
+          ))}
+        </Select>,
       ]}
     >
       <Row gutter={[16, 16]}>
