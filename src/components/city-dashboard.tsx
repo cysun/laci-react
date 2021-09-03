@@ -1,11 +1,13 @@
 import { history } from "umi";
-import { Row, Col, Card, Select, Tag, Statistic } from "antd";
+import { Row, Col, Card, Select, Tag, Statistic, DatePicker } from "antd";
 import { PageContainer } from "@ant-design/pro-layout";
 import { Line, LineConfig } from "@ant-design/charts";
-import { City } from "@/api";
 import Cookies from "js-cookie";
+import { City } from "@/api";
+import CityChart from "./city-chart";
 
 const { Option } = Select;
+const { RangePicker } = DatePicker;
 
 export interface CityInfo {
   id?: number;
@@ -37,20 +39,25 @@ export default function CityDashboard({
   cities: City[];
 }) {
   let cases = cityInfo.chartData?.flatMap((d) => [
-    { label: d.label, value: d.cases, type: "Cases" },
-    { label: d.label, value: d.cases7Avg, type: "Cases (7-day Average)" },
+    { date: d.date, label: d.label, value: d.cases, type: "Cases" },
+    {
+      date: d.date,
+      label: d.label,
+      value: d.cases7Avg,
+      type: "Cases (7-day Average)",
+    },
   ]);
   let deaths = cityInfo.chartData?.flatMap((d) => [
-    { label: d.label, value: d.deaths, type: "Deaths" },
-    { label: d.label, value: d.deaths7Avg, type: "Deaths (7-day Average)" },
+    { date: d.date, label: d.label, value: d.deaths, type: "Deaths" },
+    {
+      date: d.date,
+      label: d.label,
+      value: d.deaths7Avg,
+      type: "Deaths (7-day Average)",
+    },
   ]);
-
-  let config: LineConfig = {
-    xField: "label",
-    yField: "value",
-    seriesField: "type",
-    color: ["yellow", "blue"],
-  };
+  let startDate = cityInfo.chartData[0].date;
+  let endDate = cityInfo.chartData[cityInfo.chartData?.length - 1].date;
 
   return (
     <PageContainer
@@ -107,15 +114,19 @@ export default function CityDashboard({
             />
           </Card>
         </Col>
-        <Col xs={24} md={12}>
-          <Card title="New Cases">
-            <Line data={cases} {...config} />
-          </Card>
+        <Col xs={24} lg={12}>
+          <CityChart
+            title="New Cases"
+            data={cases}
+            dateRange={{ startDate, endDate }}
+          />
         </Col>
-        <Col xs={24} md={12}>
-          <Card title="New Deaths">
-            <Line data={deaths} {...config} />
-          </Card>
+        <Col xs={24} lg={12}>
+          <CityChart
+            title="New Deaths"
+            data={deaths}
+            dateRange={{ startDate, endDate }}
+          />
         </Col>
       </Row>
     </PageContainer>
