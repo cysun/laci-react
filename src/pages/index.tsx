@@ -7,27 +7,30 @@ const { Option } = Select;
 
 export default function IndexPage() {
   const { initialState } = useModel("@@initialState");
+  let savedCityId = Cookies.get("laci-city-id");
 
   function selectCity(cityId: number) {
     Cookies.set("laci-city-id", cityId.toString(), { expires: 14 });
     history.push(`/cities/${cityId}`);
   }
 
-  return (
-    <PageContainer header={{ title: "LA COVID Information by City" }}>
-      <Select
-        showSearch
-        placeholder="Select a city"
-        optionFilterProp="children"
-        style={{ width: 400 }}
-        onChange={selectCity}
-      >
-        {initialState?.cities.map((c) => (
-          <Option key={c.id} value={c.id}>
-            {c.name}
-          </Option>
-        ))}
-      </Select>
-    </PageContainer>
-  );
+  if (savedCityId) return <Redirect to={`/cities/${savedCityId}`} />;
+  else
+    return (
+      <PageContainer header={{ title: "LA COVID Information by City" }}>
+        <Select
+          showSearch
+          placeholder="Select a city"
+          optionFilterProp="children"
+          style={{ width: 400 }}
+          onChange={selectCity}
+        >
+          {initialState?.cities.map((c) => (
+            <Option key={c.id} value={c.id}>
+              {c.name}
+            </Option>
+          ))}
+        </Select>
+      </PageContainer>
+    );
 }

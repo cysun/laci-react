@@ -3,6 +3,7 @@ import { Row, Col, Card, Select, Tag, Statistic } from "antd";
 import { PageContainer } from "@ant-design/pro-layout";
 import { Line, LineConfig } from "@ant-design/charts";
 import { City } from "@/api";
+import Cookies from "js-cookie";
 
 const { Option } = Select;
 
@@ -63,7 +64,10 @@ export default function CityDashboard({
           placeholder="Select a city"
           optionFilterProp="children"
           style={{ width: 300 }}
-          onChange={(value) => history.push(`/cities/${value}`)}
+          onChange={(value) => {
+            Cookies.set("laci-city-id", value.toString(), { expires: 14 });
+            history.push(`/cities/${value}`);
+          }}
           defaultValue={cityInfo.id}
         >
           {cities.map((c) => (

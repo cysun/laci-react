@@ -4,7 +4,6 @@ import {
   Settings as LayoutSettings,
 } from "@ant-design/pro-layout";
 import { Layout } from "antd";
-import Cookies from "js-cookie";
 import settings from "../settings.json";
 import { City, getCities } from "./api";
 
@@ -41,6 +40,5 @@ export const request: RequestConfig = {
 
 export async function getInitialState() {
   const cities: City[] = await getCities();
-  let savedCityId = +(Cookies.get("laci-city-id") || "");
-  return { cities, savedCityId };
+  return { cities };
 }
