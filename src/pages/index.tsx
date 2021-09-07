@@ -1,5 +1,5 @@
 import { useModel, Redirect, history } from "umi";
-import { Select } from "antd";
+import { Row, Col, Select } from "antd";
 import { PageContainer } from "@ant-design/pro-layout";
 import Cookies from "js-cookie";
 
@@ -18,19 +18,23 @@ export default function IndexPage() {
   else
     return (
       <PageContainer header={{ title: "LA COVID Information by City" }}>
-        <Select
-          showSearch
-          placeholder="Select a city"
-          optionFilterProp="children"
-          style={{ width: 400 }}
-          onChange={selectCity}
-        >
-          {initialState?.cities.map((c) => (
-            <Option key={c.id} value={c.id}>
-              {c.name}
-            </Option>
-          ))}
-        </Select>
+        <Row>
+          <Col xs={24} md={12} xl={8}>
+            <Select
+              showSearch
+              placeholder="Select a city"
+              optionFilterProp="children"
+              style={{ width: "100%" }}
+              onChange={selectCity}
+            >
+              {initialState?.cities.map((c) => (
+                <Option key={c.id} value={c.id}>
+                  {c.name}
+                </Option>
+              ))}
+            </Select>
+          </Col>
+        </Row>
       </PageContainer>
     );
 }

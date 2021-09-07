@@ -22,7 +22,6 @@
   "dependencies": {
     "@ant-design/charts": "^1.2.10",
     "@ant-design/pro-layout": "^6.5.0",
-    "date-fns": "^2.23.0",
     "js-cookie": "^3.0.0",
     "react": "17.x",
     "react-dom": "17.x",

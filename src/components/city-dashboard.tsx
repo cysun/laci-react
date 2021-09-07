@@ -1,35 +1,11 @@
 import { history } from "umi";
-import { Row, Col, Card, Select, Tag, Statistic, DatePicker } from "antd";
+import { Row, Col, Card, Select, Tag, Statistic } from "antd";
 import { PageContainer } from "@ant-design/pro-layout";
-import { Line, LineConfig } from "@ant-design/charts";
 import Cookies from "js-cookie";
-import { City } from "@/api";
+import { ChartRecord, City, CityInfo, DateRange } from "@/types";
 import CityChart from "./city-chart";
 
 const { Option } = Select;
-const { RangePicker } = DatePicker;
-
-export interface CityInfo {
-  id?: number;
-  name?: string;
-  population?: number;
-  lastUpdated?: Date;
-  tests?: number;
-  cases?: number;
-  deaths?: number;
-  chartData?: ChartDataEntry[];
-}
-
-export interface ChartDataEntry {
-  date: Date;
-  label: string;
-  tests?: number;
-  tests7Avg?: number;
-  cases?: number;
-  cases7Avg?: number;
-  deaths?: number;
-  deaths7Avg?: number;
-}
 
 export default function CityDashboard({
   cityInfo,
@@ -38,33 +14,43 @@ export default function CityDashboard({
   cityInfo: CityInfo;
   cities: City[];
 }) {
-  let cases = cityInfo.chartData?.flatMap((d) => [
-    { date: d.date, label: d.label, value: d.cases, type: "Cases" },
+  let cases: ChartRecord[] = cityInfo.data.flatMap((d) => [
     {
-      date: d.date,
+      date: d.date.toDate(),
+      label: d.label,
+      value: d.cases,
+      type: "Cases",
+    },
+    {
+      date: d.date.toDate(),
       label: d.label,
       value: d.cases7Avg,
       type: "Cases (7-day Average)",
     },
   ]);
-  let deaths = cityInfo.chartData?.flatMap((d) => [
-    { date: d.date, label: d.label, value: d.deaths, type: "Deaths" },
+  let deaths: ChartRecord[] = cityInfo.data.flatMap((d) => [
     {
-      date: d.date,
+      date: d.date.toDate(),
+      label: d.label,
+      value: d.deaths,
+      type: "Deaths",
+    },
+    {
+      date: d.date.toDate(),
       label: d.label,
       value: d.deaths7Avg,
       type: "Deaths (7-day Average)",
     },
   ]);
-  let startDate = cityInfo.chartData[0].date;
-  let endDate = cityInfo.chartData[cityInfo.chartData?.length - 1].date;
+  let dateRange: DateRange = {
+    start: cityInfo.data[0].date,
+    end: cityInfo.data[cityInfo.data.length - 1].date,
+  };
 
   return (
     <PageContainer
       header={{ title: cityInfo.name }}
-      tags={[
-        <Tag color="green">{cityInfo.lastUpdated?.toLocaleDateString()}</Tag>,
-      ]}
+      tags={[<Tag color="green">{cityInfo.lastUpdated.format("l")}</Tag>]}
       extra={[
         <Select
           showSearch
@@ -115,17 +101,13 @@ export default function CityDashboard({
           </Card>
         </Col>
         <Col xs={24} lg={12}>
-          <CityChart
-            title="New Cases"
-            data={cases}
-            dateRange={{ startDate, endDate }}
-          />
+          <CityChart title="New Cases" records={cases} dateRange={dateRange} />
         </Col>
         <Col xs={24} lg={12}>
           <CityChart
             title="New Deaths"
-            data={deaths}
-            dateRange={{ startDate, endDate }}
+            records={deaths}
+            dateRange={dateRange}
           />
         </Col>
       </Row>

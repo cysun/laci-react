@@ -1,23 +1,25 @@
 import { useState } from "react";
 import { Card, DatePicker } from "antd";
 import { Line, LineConfig } from "@ant-design/charts";
-import moment from "moment";
+import { ChartRecord, DateRange } from "@/types";
 
 const { RangePicker } = DatePicker;
 
-export default function CityChart({ title, data, dateRange }) {
-  let startMoment = moment(dateRange.startDate);
-  let endMoment = moment(dateRange.endDate);
-  const [momentRange, setMomentRange] = useState({
-    start: startMoment,
-    end: endMoment,
-  });
+export default function CityChart({
+  title,
+  records,
+  dateRange,
+}: {
+  title: string;
+  records: ChartRecord[];
+  dateRange: DateRange;
+}) {
+  const [dates, setDates] = useState(dateRange);
 
   let config: LineConfig = {
-    data: data.filter(
-      (d) =>
-        momentRange.start.isSameOrBefore(d.date) &&
-        momentRange.end.isSameOrAfter(d.date),
+    data: records.filter(
+      (r) =>
+        dates.start.isSameOrBefore(r.date) && dates.end.isSameOrAfter(r.date),
     ),
     xField: "label",
     yField: "value",
@@ -30,16 +32,17 @@ export default function CityChart({ title, data, dateRange }) {
       title={title}
       extra={
         <RangePicker
-          defaultValue={[momentRange.start, momentRange.end]}
+          defaultValue={[dates.start, dates.end]}
           allowClear={false}
           ranges={{
-            Reset: [startMoment, endMoment],
+            Reset: [dateRange.start, dateRange.end],
           }}
           disabledDate={(current) =>
-            startMoment.isAfter(current) || endMoment.isBefore(current)
+            dateRange.start.isAfter(current) || dateRange.end.isBefore(current)
           }
-          onCalendarChange={(dates) => {
-            setMomentRange({ start: dates[0], end: dates[1] });
+          onCalendarChange={(newDates) => {
+            if (newDates != null)
+              setDates({ start: newDates[0], end: newDates[1] } as DateRange);
           }}
         />
       }

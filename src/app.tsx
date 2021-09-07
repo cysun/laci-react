@@ -1,11 +1,11 @@
-import { RequestConfig } from "umi";
+import { request as umiRequest, RequestConfig } from "umi";
 import {
   BasicLayoutProps,
   Settings as LayoutSettings,
 } from "@ant-design/pro-layout";
 import { Layout } from "antd";
 import settings from "../settings.json";
-import { City, getCities } from "./api";
+import { City } from "./types";
 
 const { Footer } = Layout;
 
@@ -39,6 +39,6 @@ export const request: RequestConfig = {
 };
 
 export async function getInitialState() {
-  const cities: City[] = await getCities();
+  const cities: City[] = (await umiRequest("/cities")).data;
   return { cities };
 }

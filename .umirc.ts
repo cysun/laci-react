@@ -22,6 +22,6 @@ export default defineConfig({
   fastRefresh: {},
   mfsu: {},
   webpack5: {},
-  base: settings.base,
-  publicPath: settings.publicPath,
+  base: settings.base || undefined,
+  publicPath: settings.publicPath || undefined,
 });
