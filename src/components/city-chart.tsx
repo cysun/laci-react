@@ -1,9 +1,16 @@
 import { useState } from "react";
-import { Card, DatePicker } from "antd";
+import { Card } from "antd";
 import { Line, LineConfig } from "@ant-design/charts";
 import { ChartRecord, DateRange } from "@/types";
 
+import DatePicker from "./DatePicker";
 const { RangePicker } = DatePicker;
+
+import dayjs from "dayjs";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+dayjs.extend(isSameOrBefore);
+dayjs.extend(isSameOrAfter);
 
 export default function CityChart({
   title,

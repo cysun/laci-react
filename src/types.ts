@@ -1,4 +1,6 @@
-import moment, { Moment } from "moment";
+import dayjs, { Dayjs } from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+dayjs.extend(localizedFormat);
 
 // City returned from API
 export interface City {
@@ -30,21 +32,22 @@ export interface ChartRecord {
 }
 
 export interface DateRange {
-  start: Moment;
-  end: Moment;
+  start: Dayjs;
+  end: Dayjs;
 }
 
+let a = dayjs();
 export class DataRecord {
-  date: Moment;
+  date: Dayjs;
   label: string; // M/d/yyyy used for labels in charts
   cases: number = 0; // new cases
   cases7Avg: number = 0; // new cases (7-day average)
   deaths: number = 0; // new deaths
   deaths7Avg: number = 0; // new deaths (7-day average)
 
-  [key: string]: number | string | Moment;
+  [key: string]: number | string | Dayjs;
 
-  constructor(date: Moment) {
+  constructor(date: Dayjs) {
     this.date = date;
     this.label = this.date.format("l");
   }
@@ -54,7 +57,7 @@ export class CityInfo {
   id: number;
   name: string;
   population: number;
-  lastUpdated: Moment;
+  lastUpdated: Dayjs;
   tests: number;
   cases: number;
   deaths: number;
@@ -65,12 +68,12 @@ export class CityInfo {
     (this.name = city.name), (this.population = city.population);
 
     let lastRecord = records[records.length - 1];
-    this.lastUpdated = moment(lastRecord.date);
+    this.lastUpdated = dayjs(lastRecord.date);
     this.tests = lastRecord.tests;
     this.cases = lastRecord.cases;
     this.deaths = lastRecord.deaths;
 
-    let current = moment(records[0].date);
+    let current = dayjs(records[0].date);
     do {
       current = current.clone().add(1, "d");
       this.data.push(new DataRecord(current));
