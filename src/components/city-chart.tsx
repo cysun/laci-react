@@ -16,10 +16,12 @@ export default function CityChart({
   title,
   records,
   dateRange,
+  colors = ["yellow", "blue"],
 }: {
   title: string;
   records: ChartRecord[];
   dateRange: DateRange;
+  colors?: string[];
 }) {
   const [dates, setDates] = useState(dateRange);
 
@@ -31,7 +33,7 @@ export default function CityChart({
     xField: "label",
     yField: "value",
     seriesField: "type",
-    color: ["yellow", "blue"],
+    color: colors,
   };
 
   return (

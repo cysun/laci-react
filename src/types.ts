@@ -63,6 +63,30 @@ export class CityInfo {
   deaths: number;
   data: DataRecord[] = [];
 
+  get testsPer10k() {
+    return this.tests / (this.population / 10000);
+  }
+
+  get casesPer10k() {
+    return this.cases / (this.population / 10000);
+  }
+
+  get deathsPer10k() {
+    return this.deaths / (this.population / 10000);
+  }
+
+  get dataPer10k(): DataRecord[] {
+    let scale = this.population / 10000;
+    return this.data.map((d) => {
+      let dPer10k = { ...d };
+      dPer10k.cases /= scale;
+      dPer10k.cases7Avg /= scale;
+      dPer10k.deaths /= scale;
+      dPer10k.deaths7Avg /= scale;
+      return dPer10k;
+    });
+  }
+
   constructor(city: City, records: Record[]) {
     this.id = city.id;
     (this.name = city.name), (this.population = city.population);
