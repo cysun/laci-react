@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useModel, request } from "umi";
+import { useModel, request, Link } from "umi";
 import { Typography, Row, Col, Select, Table, message } from "antd";
 import { PageContainer } from "@ant-design/pro-layout";
 import Cookies from "js-cookie";
@@ -67,6 +67,10 @@ export default function ComparePage() {
     });
   }
 
+  let formatNumber = (value: number) => {
+    return <>{value.toLocaleString(undefined, { maximumFractionDigits: 0 })}</>;
+  };
+
   return (
     <PageContainer header={{ title: "Compare Cities" }}>
       <Paragraph>
@@ -102,15 +106,38 @@ export default function ComparePage() {
               <Table
                 dataSource={cityInfos}
                 columns={[
-                  { title: "Name", dataIndex: "name", key: "name" },
+                  {
+                    title: "Name",
+                    dataIndex: "name",
+                    key: "name",
+                    render: (name, cityInfo) => (
+                      <Link to={`/cities/${cityInfo.id}`}>{name}</Link>
+                    ),
+                  },
                   {
                     title: "Population",
                     dataIndex: "population",
                     key: "population",
+                    render: formatNumber,
                   },
-                  { title: "Tests", dataIndex: "testsPer10k", key: "tests" },
-                  { title: "Cases", dataIndex: "casesPer10k", key: "cases" },
-                  { title: "Deaths", dataIndex: "deathsPer10k", key: "deaths" },
+                  {
+                    title: "Tests",
+                    dataIndex: "testsPer10k",
+                    key: "tests",
+                    render: formatNumber,
+                  },
+                  {
+                    title: "Cases",
+                    dataIndex: "casesPer10k",
+                    key: "cases",
+                    render: formatNumber,
+                  },
+                  {
+                    title: "Deaths",
+                    dataIndex: "deathsPer10k",
+                    key: "deaths",
+                    render: formatNumber,
+                  },
                 ]}
                 style={{ width: "100%" }}
                 pagination={false}
