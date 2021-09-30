@@ -19,6 +19,7 @@ export default defineConfig({
     { path: "/", component: "@/pages/index" },
     { path: "/cities/:id", component: "@/pages/city" },
     { path: "/compare", component: "@/pages/compare", name: "Compare" },
+    { path: "/import", component: "@/pages/import", name: "Import" },
   ],
   fastRefresh: {},
   mfsu: {},
