@@ -9,21 +9,21 @@ export default function ImportPage() {
   const [dateStr, setDateStr] = useState("");
   const uploadProps: UploadProps = {
     name: "files",
-    disabled: !dateStr,
-    multiple: true,
     action: `${settings.apiBaseUrl}/records/${dateStr}`,
   };
   return (
     <PageContainer header={{ title: "Import Data" }}>
-      <Space>
+      <Space direction="vertical">
         <DatePicker
           onChange={(date, dateString) => {
             setDateStr(dateString);
           }}
         />
-        <Upload {...uploadProps}>
-          <Button icon={<UploadOutlined />}>Click to Upload</Button>
-        </Upload>
+        {!!dateStr && (
+          <Upload {...uploadProps}>
+            <Button icon={<UploadOutlined />}>Click to Upload</Button>
+          </Upload>
+        )}
       </Space>
     </PageContainer>
   );
